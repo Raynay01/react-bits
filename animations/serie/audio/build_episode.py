@@ -45,7 +45,8 @@ def score(ref, hyp):
     return difflib.SequenceMatcher(None, norm(ref), norm(hyp)).ratio()
 
 CACHE = os.path.join(ROOT, "build", "cache"); os.makedirs(CACHE, exist_ok=True)
-VOICE_CODE = hashlib.md5(open(os.path.join(HERE, "voicelab.py"), "rb").read().split(b"# ---------------------------------------------------------------- BÍBLIA VOCAL")[0] + open(os.path.join(HERE, "voicelab.py"), "rb").read().split(b"_cache = {}")[-1]).hexdigest()[:8]
+_SRC = open(os.path.join(HERE, "voicelab.py"), encoding="utf-8").read()
+VOICE_CODE = hashlib.md5((_SRC.split("# ---------------------------------------------------------------- BÍBLIA VOCAL")[0] + _SRC.split("_cache = {}")[-1]).encode()).hexdigest()[:8]
 
 def best_take(who, text, emo, takes, speed_vars=(1.0, 0.96, 1.04, 0.92, 1.0, 0.98)):
     """Grava várias tomadas e fica com a de melhor pronúncia (cache em disco)."""
