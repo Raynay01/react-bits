@@ -16,7 +16,7 @@ export default {
     { say: 'pipoca', emo: 'choro', text: 'Mas você me salvou... Por que salvou a gente, se ia trair a gente?', music: 'triste',
       chars: { pipoca: { rot: 100, anim: 'cry', face: 'cry' }, pro: { anim: 'idle', face: 'sad' } }, cam: { type: 'close', on: 'pipoca', side: -1, push: 0.1 } },
     { beat: 1.4, chars: { pro: { anim: 'sad' } }, cam: { type: 'xclose', on: 'pro', side: 1, push: 0.1 } },
-    { say: 'pro', emo: 'tristeza', text: 'Eu... não sei.', post: 0.5, cam: { type: 'close', on: 'pro', side: -1 } },
+    { say: 'pro', emo: 'tristeza', text: 'Eu... eu não sei.', post: 0.5, cam: { type: 'close', on: 'pro', side: -1 } },
     { beat: 2.4, music: 'epico', env: { quake: 0.7, ramp: 0.5, dark: 0.35 },
       chars: { vortex: { pos: [0, -50, -48], to: [0, -8, -48], dur: 2.3, scale: 7.5, anim: 'idle' }, luna: { rot: 180, face: 'scared', anim: 'scared' }, pipoca: { rot: 180, face: 'scared', anim: 'scared' }, pro: { rot: 180, face: 'shock', anim: 'idle' } },
       cam: { type: 'free', pos: [0, 27, 10], look: [0, 30, -20], fov: 56, end: { look: [0, 36, -40] } }, sfx: [['rumble', 0, 1, 2.6], ['explosion', 0.3, 0.6, 2.0]] },
@@ -33,6 +33,6 @@ export default {
     { beat: 1.3, music: 'esperanca', chars: { pro: { anim: 'idle', face: 'determined', rot: 140 } }, cam: { type: 'low', on: 'pro', side: 1, dist: 7 }, sfx: [['swell', 0, 0.6, 1.4]] },
     { say: 'pro', emo: 'orgulho', text: 'Então eu vou consertar. Eu vou buscar o Noob.', chars: { pro: { anim: 'determined' } }, cam: { type: 'low', on: 'pro', side: -1, dist: 6.5 } },
     { say: 'luna', emo: 'ameaca', text: 'Se você mentir de novo... eu mesma te apago.', chars: { luna: { face: 'angry', anim: 'crossed', look: 'pro' } }, cam: { type: 'close', on: 'luna', side: 1, push: 0.1 } },
-    { say: 'pro', emo: 'calmo', text: 'Justo.', post: 1.0, chars: { pro: { face: 'smug', look: 'luna' }, pipoca: { face: 'happy', anim: 'idle' } }, cam: { type: 'two', a: 'pro', b: 'luna', side: 1 } },
+    { say: 'pro', emo: 'calmo', text: 'Tá certo. Combinado.', post: 1.0, chars: { pro: { face: 'smug', look: 'luna' }, pipoca: { face: 'happy', anim: 'idle' } }, cam: { type: 'two', a: 'pro', b: 'luna', side: 1 } },
   ],
 };

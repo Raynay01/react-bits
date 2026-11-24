@@ -16,7 +16,7 @@ export default {
     { beat: 1.6, chars: { drone1: { to: [8.5, 4.5, -2], dur: 1.0 }, drone2: { to: [10.5, 5, -3], dur: 1.1 }, ze: { to: [13, 0, 2], dur: 1.4, anim: 'run', face: 'scared' },
         pipoca: { to: [6, 4.2, -1], arc: 3, dur: 0.7, anim: 'jump' }, drone3: { to: [3, 6, 1], delay: 0.7, dur: 0.9 } },
       cam: { type: 'wide', at: [7, 3, -3], dist: 15, h: 3, ang: 0.3, fov: 50 }, sfx: [['boing', 0], ['typing', 0, 0.7, 1.6], ['footsteps', 0.2, 0.5, 1.2]] },
-    { say: 'pipoca', emo: 'empolgado', text: 'Uhuuul! Eu tô pilotando um robô!',
+    { say: 'pipoca', emo: 'empolgado', text: 'Uhul! Olha, eu tô pilotando um robô!',
       chars: { pipoca: { pos: [3, 6.6, 1], to: [-1, 6.8, 3], anim: 'cheer', face: 'happy' }, drone3: { pos: [3, 6, 1], to: [-1, 6.2, 3] } },
       cam: { type: 'free', pos: [-2, 7, 10], look: [1, 7, 2], fov: 44 } },
     { beat: 1.3, env: { cages: [0, 0], ramp: 0.6 }, chars: { luna: { anim: 'typing', face: 'smug' } },

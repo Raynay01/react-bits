@@ -38,11 +38,11 @@ export default {
       chars: { noob: { rot: 180, anim: 'idle' }, luna: { rot: 160, anim: 'point' }, pipoca: { rot: 190, anim: 'cheer' }, pro: { rot: 200, anim: 'idle' } }, cam: { type: 'free', pos: [1, 31, 11], look: [0, 32, -3], fov: 50 } },
     { beat: 1.4, music: 'tensao', chars: { pro: { rot: 0, face: 'shock', anim: 'typing' } }, ui: [{ type: 'toast', text: 'VÓRTEX: <b>AGORA.</b>', color: 'rgba(160,0,25,.95)', dur: 1.4 }],
       cam: { type: 'close', on: 'pro', side: 1 }, sfx: [['ding', 0, 0.6], ['heartbeat', 0.2, 0.8, 2.2]] },
-    { say: 'pro', emo: 'tristeza', text: 'Desculpa, Noob.', post: 0.4, chars: { pro: { face: 'sad', anim: 'idle' } }, cam: { type: 'xclose', on: 'pro', side: -1, push: 0.15 } },
+    { say: 'pro', emo: 'tristeza', text: 'Me desculpa, Noob.', post: 0.4, chars: { pro: { face: 'sad', anim: 'idle' } }, cam: { type: 'xclose', on: 'pro', side: -1, push: 0.15 } },
     { beat: 1.8, chars: { noob: { rot: 20, face: 'shock' }, luna: { rot: 40, face: 'shock' }, pipoca: { rot: 10, face: 'scared', anim: 'scared' },
         drone1: { pos: [-3, 40, -2], to: [-2.5, 32, 3], dur: 0.8, look: 'noob' }, drone2: { pos: [3, 40, -2], to: [2, 32.5, 3], dur: 0.9, look: 'noob' } },
       fx: [{ type: 'beam', at: 0.8, on: 'noob', dy: -4.7, color: 0xff2a3a, dur: 1.4, size: 0.8 }], ui: [{ type: 'flash', at: 0.8, dur: 0.3, amount: 0.5 }],
       cam: { type: 'wide', on: ['noob', 'pro'], dist: 13, h: 3, ang: 0.3, fov: 48 }, sfx: [['hum', 0, 0.6, 2], ['cage', 0.8], ['alarm', 0.9, 0.4, 1.0]], shake: { at: 0.8, amp: 0.3 } },
-    { say: 'noob', emo: 'tristeza', text: 'Pro...?', post: 1.0, chars: { noob: { face: 'sad', anim: 'float' } }, cam: { type: 'xclose', on: 'noob', side: 1, push: 0.2 } },
+    { say: 'noob', emo: 'tristeza', text: 'Pro...? Por quê?', post: 1.0, chars: { noob: { face: 'sad', anim: 'float' } }, cam: { type: 'xclose', on: 'noob', side: 1, push: 0.2 } },
   ],
 };
