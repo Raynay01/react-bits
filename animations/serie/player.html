@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>O NOOB QUE NÃO PODIA MORRER — A SÉRIE</title>
+<style>
+  html, body { margin: 0; height: 100%; background: #000; overflow: hidden; font-family: "Inter", "Inter Display", system-ui, sans-serif; }
+  #stage { position: absolute; left: 50%; top: 50%; width: 720px; height: 1280px; transform-origin: 50% 50%; overflow: hidden; background: #000; }
+  #stage canvas { display: block; width: 720px; height: 1280px; }
+  .ov { position: absolute; inset: 0; pointer-events: none; }
+  .stroke { -webkit-text-stroke: 7px #000; paint-order: stroke fill; }
+  #vignette { background: radial-gradient(ellipse at 50% 50%, rgba(0,0,0,0) 55%, rgba(0,0,0,.55) 100%); }
+  #logo { top: 40px; bottom: auto; text-align: center; font-weight: 900; font-size: 24px; color: #fff; letter-spacing: 4px; }
+  #epTitle { top: 80px; bottom: auto; text-align: center; font-weight: 900; font-size: 60px; line-height: 1.02; color: #ffe14d; letter-spacing: 1px; text-shadow: 0 6px 0 #000; padding: 0 30px; }
+  #epTitle small { display: block; font-size: 26px; color: #fff; letter-spacing: 6px; margin-bottom: 8px; -webkit-text-stroke: 6px #000; paint-order: stroke fill; }
+  #sub { top: auto; bottom: 250px; text-align: center; padding: 0 40px; }
+  #sub .who { display: inline-block; font-weight: 900; font-size: 24px; padding: 4px 14px; border-radius: 10px; margin-bottom: 10px; color: #fff; border: 4px solid #000; }
+  #sub .txt { font-weight: 900; font-size: 46px; line-height: 1.1; color: #fff; text-transform: uppercase; }
+  #countdown { top: 46px; left: auto; right: 30px; bottom: auto; width: 250px; height: 108px; border-radius: 22px; background: rgba(150,10,25,.88); border: 5px solid #fff; color: #fff; font-weight: 900; display: flex; flex-direction: column; align-items: center; justify-content: center; box-shadow: 0 8px 0 #000; transform-origin: 100% 0; }
+  #countdown #cdLbl { font-size: 18px; letter-spacing: 3px; opacity: .85; }
+  #countdown #cdTxt { font-size: 44px; font-family: "JetBrains Mono", monospace; font-weight: 800; }
+  #toast { left: 40px; right: 40px; top: 190px; bottom: auto; border-radius: 22px; border: 5px solid #fff; box-shadow: 0 10px 0 #000; padding: 22px 26px; color: #fff; font-weight: 900; font-size: 34px; line-height: 1.12; text-align: center; }
+  #kick { left: 50px; right: 50px; top: 400px; bottom: auto; border-radius: 22px; overflow: hidden; background: #1b1d24; border: 5px solid #fff; box-shadow: 0 0 80px rgba(255,40,40,.7), 0 12px 0 #000; color: #fff; text-align: center; }
+  #kick .hd { background: #d32222; font-weight: 900; font-size: 30px; padding: 16px; letter-spacing: 2px; }
+  #kick .bd { padding: 30px 26px 30px; font-weight: 900; font-size: 44px; line-height: 1.06; }
+  #banner { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 0 30px; }
+  #bannerTxt { font-weight: 900; font-size: 78px; line-height: 1.0; text-shadow: 6px 0 0 #ff1f4b, -6px 0 0 #1fe5ff; }
+  #bannerSub { margin-top: 18px; font-weight: 800; font-size: 30px; color: #fff; }
+  #broadcast { border: 10px solid #e8243c; box-shadow: inset 0 0 120px rgba(255,0,40,.45); background: repeating-linear-gradient(0deg, rgba(255,0,40,.10) 0 2px, transparent 2px 8px); background-position: 0 var(--off); }
+  #broadcast #bcLabel { position: absolute; top: 34px; left: 34px; padding: 10px 18px; border-radius: 10px; background: #e8243c; color: #fff; font-weight: 900; font-size: 26px; letter-spacing: 2px; }
+  #broadcast .rec { position: absolute; top: 44px; right: 40px; width: 26px; height: 26px; border-radius: 50%; background: #ff2030; box-shadow: 0 0 20px #ff2030; }
+  #menu { left: 70px; right: 70px; top: 300px; bottom: auto; border-radius: 26px; background: rgba(20,22,32,.92); border: 5px solid #fff; box-shadow: 0 0 60px rgba(90,200,255,.55), 0 12px 0 #000; padding: 26px 30px 30px; color: #fff; transform-origin: 50% 0; }
+  #menu h3 { margin: 0 0 18px; font-weight: 900; font-size: 30px; letter-spacing: 3px; color: #8fe3ff; }
+  #menu .item { font-weight: 800; font-size: 30px; padding: 14px 18px; border-radius: 14px; background: rgba(255,255,255,.08); margin-bottom: 12px; display: flex; justify-content: space-between; }
+  #menu .admin { margin-top: 18px; padding: 22px 18px; border-radius: 18px; text-align: center; font-weight: 900; font-size: 38px; line-height: 1.05; color: #2b1a00; background: linear-gradient(180deg, #fff3a0, #ffc21a 55%, #ff9800); border: 5px solid #000; box-shadow: 0 0 50px rgba(255,200,40,.9); }
+  #wanted { left: 120px; right: 120px; top: 260px; bottom: auto; background: #f3e3c0; border: 8px solid #5a3418; border-radius: 10px; box-shadow: 0 14px 0 #000; text-align: center; padding: 20px; color: #3a1d08; transform-origin: 50% 50%; }
+  #wanted h2 { margin: 0; font-size: 64px; font-weight: 900; letter-spacing: 4px; color: #b3121f; }
+  #wanted .face { width: 260px; height: 220px; margin: 14px auto; background: #f5cd30; border: 6px solid #3a1d08; border-radius: 30px; position: relative; }
+  #wanted .face i { position: absolute; top: 70px; width: 30px; height: 50px; border-radius: 50%; background: #111; }
+  #wanted .face b { position: absolute; left: 70px; top: 130px; width: 120px; height: 46px; border-bottom: 12px solid #111; border-radius: 0 0 60px 60px; }
+  #wanted p { margin: 6px 0 0; font-weight: 900; font-size: 34px; }
+  #flash { background: #fff; opacity: 0; }
+  #black { background: #000; opacity: 0; }
+  #endCard { display: flex; flex-direction: column; align-items: center; justify-content: center; opacity: 0; }
+  #endMain { white-space: nowrap; font-weight: 900; font-size: 104px; color: #fff; letter-spacing: 2px; text-shadow: 6px 0 0 #ff1f4b, -6px 0 0 #1fe5ff; }
+  #endNext { margin-top: 30px; font-weight: 800; font-size: 30px; color: #ffe14d; text-align: center; padding: 0 40px; }
+  #play { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; z-index: 10; background: rgba(0,0,0,.6); cursor: pointer; color: #fff; font-weight: 900; font-size: 34px; }
+  #play div { padding: 26px 40px; border: 5px solid #fff; border-radius: 22px; background: #111; }
+</style>
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/"
+} }
+</script>
+</head>
+<body>
+<div id="stage">
+  <div id="vignette" class="ov"></div>
+  <div id="broadcast" class="ov" style="opacity:0"><div id="bcLabel"></div><div class="rec"></div></div>
+  <div id="logo" class="ov stroke">O NOOB QUE NÃO PODIA MORRER</div>
+  <div id="epTitle" class="ov stroke"></div>
+  <div id="countdown" class="ov" style="opacity:0"><div id="cdLbl">GRANDE RESET</div><div id="cdTxt"></div></div>
+  <div id="toast" class="ov" style="opacity:0"><span id="toastTxt"></span></div>
+  <div id="wanted" class="ov" style="opacity:0"><h2>PROCURADO</h2><div class="face"><i style="left:70px"></i><i style="right:70px"></i><b></b></div><p>NOOB</p><p style="font-size:24px">VIVO. SEMPRE VIVO.<br/>RECOMPENSA: 1.000.000 MOEDAS</p></div>
+  <div id="menu" class="ov" style="opacity:0"><h3>MENU DO JOGADOR</h3><div class="item">Inventário <span>›</span></div><div class="item">Amigos <span>›</span></div><div class="admin" id="adminBadge">CHAVE DO<br/>FUNDADOR</div></div>
+  <div id="kick" class="ov" style="opacity:0"><div class="hd" id="kickHd">DESCONECTADO</div><div class="bd" id="kickBd"></div></div>
+  <div id="banner" class="ov" style="opacity:0"><div id="bannerTxt" class="stroke"></div><div id="bannerSub" class="stroke"></div></div>
+  <div id="sub" class="ov"><div class="who" id="who"></div><div class="txt stroke" id="txt"></div></div>
+  <div id="flash" class="ov"></div>
+  <div id="black" class="ov"></div>
+  <div id="endCard" class="ov"><div id="endMain"></div><div id="endNext" class="stroke"></div></div>
+</div>
+<div id="play"><div>▶ ASSISTIR (com som)</div></div>
+<script type="module">
+import { load, renderAt } from './engine/director.js';
+const q = new URLSearchParams(location.search);
+const n = String(q.get('ep') || 1).padStart(2, '0');
+const RENDER = q.has('render');
+const ep = (await import(`./episodes/ep${n}.mjs`)).default;
+const tl = await (await fetch(`build/ep${n}/timeline.json`)).json();
+await document.fonts.ready;
+await load(ep, tl);
+window.renderAt = renderAt;
+renderAt(0);
+window.READY = true;
+if (RENDER) document.getElementById('play').remove();
+else {
+  const audio = new Audio(`build/ep${n}/audio.m4a`);
+  const btn = document.getElementById('play');
+  btn.onclick = async () => {
+    btn.style.display = 'none'; const t0 = performance.now();
+    try { await audio.play(); } catch (e) { }
+    const loop = () => { const t = audio.duration && !audio.paused ? audio.currentTime : (performance.now() - t0) / 1000; renderAt(t); if (t < tl.duration) requestAnimationFrame(loop); else { btn.style.display = 'flex'; audio.currentTime = 0; } };
+    loop();
+  };
+}
+</script>
+</body>
+</html>
