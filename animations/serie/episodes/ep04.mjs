@@ -16,7 +16,7 @@ export default {
     { beat: 2.2, chars: { pipoca: { to: [4.3, 0, 3.2], dur: 0.6, anim: 'run', face: 'angry' }, pro: { anim: 'scared', face: 'shock' } },
       cam: { type: 'two', a: 'pipoca', b: 'pro', side: 1, dist: 7 }, sfx: [['footsteps', 0, 0.6, 0.6], ['punch', 0.65], ['boing', 0.75], ['slam', 1.1, 0.7]], shake: { at: 1.1, amp: 0.25 } },
     { beat: 0.1, chars: { pro: { anim: 'lie', face: 'shock' }, pipoca: { anim: 'cheer', face: 'happy' } } },
-    { say: 'pipoca', emo: 'empolgado', text: 'Ganhei! Ganhei do Pro!', cam: { type: 'close', on: 'pipoca', side: -1 } },
+    { say: 'pipoca', emo: 'empolgado', text: 'Ganhei! Ganhei do Pro!', cam: { type: 'close', on: 'pipoca', side: -1, dist: 9, h: -1.2, lookH: -1.4 } },
     { say: 'luna', emo: 'ironia', text: 'Anotado. Pipoca, um. Pro, zero.', chars: { luna: { anim: 'typing', face: 'smug' } }, cam: { type: 'close', on: 'luna', side: -1 } },
     { beat: 1.4, music: 'tensao',
       chars: { pipoca: { pos: [2.5, 0, 4], anim: 'idle', look: null, rot: 0, face: 'happy' }, pro: { anim: 'idle', face: 'neutral' }, block: { pos: [2.5, 16, 4], to: [2.5, 6, 4], dur: 1.4, ease: 'linear' } },

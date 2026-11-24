@@ -130,6 +130,19 @@ function evalCam(spec, st, k) {
       const ang = sp.ang ?? 0; const dist = sp.dist ?? 16;
       pos = ctr.clone().add(V(Math.sin(ang) * dist, sp.h ?? 3, Math.cos(ang) * dist)); look = ctr.clone().add(V(0, sp.lookH ?? 0, 0)); fov = sp.fov || 44;
     } else { pos = VA(sp.pos); look = VA(sp.look); fov = sp.fov || 44; }
+    if (sp.type === 'two' || sp.type === 'ots') {   // não deixa a câmera "entrar" num personagem
+      for (let it = 0; it < 10; it++) {
+        let hit = false;
+        for (const n in st) {
+          if (!st[n].vis || !cast[n] || !cast[n].visible || n === 'vortex' || n === (sp.from || '')) continue;
+          const sc = (st[n].scale || 1) * (cast[n].userData.scale || 1);
+          const ctr = cast[n].position.clone().add(V(0, n.startsWith('drone') ? 0 : 3 * sc, 0));
+          if (pos.distanceTo(ctr) < 2.3 * sc) { hit = true; break; }
+        }
+        if (!hit) break;
+        pos = vlerp(pos, look, 0.12).add(V(0, 0.35, 0));
+      }
+    }
     return { pos, look, fov };
   };
   const a = res(spec);
@@ -240,7 +253,7 @@ export function renderAt(t) {
     if (c.userData.prop) { c.scale.setScalar(s.scale); continue; }
     if (B === 'drone') { c.position.y += animDrone(c, t); c.scale.setScalar(s.scale); continue; }
     if (name === 'chicken') { c.position.y += animChicken(c, t, m, s.anim); c.scale.setScalar(s.scale); continue; }
-    if (name === 'vortex') { animVortex(c, t, m, s.anim); c.scale.setScalar(s.scale); c.userData.light.intensity = 300 * s.opacity; c.traverse(o => { if (o.material) { o.material.transparent = s.opacity < 1; o.material.opacity = s.opacity; } }); continue; }
+    if (name === 'vortex') { animVortex(c, t, m, s.anim); c.scale.setScalar(s.scale); c.userData.light.intensity = 300 * Math.min(1, (s.scale / 7.5) ** 2) * s.opacity; c.traverse(o => { if (o.material) { o.material.transparent = s.opacity < 1; o.material.opacity = s.opacity; } }); continue; }
     if (name === 'vbot') { c.position.y += animBot(c, t, m); c.scale.setScalar(s.scale); continue; }
     // avatares humanos
     c.scale.setScalar((c.userData.scale || 1) * s.scale);

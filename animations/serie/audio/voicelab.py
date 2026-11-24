@@ -23,7 +23,7 @@ SR = 44100
 VOICES = {
     "noob": dict(engine="kokoro", model="pm_alex", speed=0.98, pitch=1.0, formant="preserved",
                  fx="equalizer=f=3200:t=q:w=1.2:g=2,acompressor=threshold=-20dB:ratio=2.5:attack=8:release=120"),
-    "pro": dict(engine="piper", model="pt_BR-jeff-medium", speed=1.04, pitch=0.0, formant="preserved", noise=0.75,
+    "pro": dict(engine="piper", model="pt_BR-jeff-medium", speed=1.04, pitch=0.8, formant="preserved", noise=0.75,
                 fx="highpass=f=110,equalizer=f=2500:t=q:w=1:g=4,acompressor=threshold=-22dB:ratio=4:attack=4:release=80"),
     "luna": dict(engine="piper", model="pt_BR-dii-high", speed=1.0, pitch=1.2, formant="preserved", noise=0.7,
                  fx="highpass=f=140,equalizer=f=6000:t=q:w=1:g=2.5,acompressor=threshold=-20dB:ratio=3:attack=6:release=100"),
@@ -31,11 +31,11 @@ VOICES = {
                    fx="highpass=f=180,equalizer=f=4000:t=q:w=1:g=2,acompressor=threshold=-20dB:ratio=2.5"),
     "vovo": dict(engine="kokoro", model="pm_santa", speed=0.88, pitch=-1.0, formant="preserved",
                  fx="vibrato=f=5:d=0.025,lowpass=f=7500,equalizer=f=220:t=q:w=1:g=3,acompressor=threshold=-20dB:ratio=2"),
-    "ze": dict(engine="piper", model="pt_PT-tugao-medium", speed=0.97, pitch=-1.5, formant="shifted", noise=0.72,
+    "ze": dict(engine="piper", model="pt_PT-tugao-medium", speed=0.95, pitch=-1.2, formant="preserved", noise=0.6,
                fx="equalizer=f=180:t=q:w=1:g=3,equalizer=f=900:t=q:w=1:g=2,lowpass=f=8000,acompressor=threshold=-20dB:ratio=2.5"),
-    "vortex": dict(engine="piper", model="pt_BR-miro-high", speed=0.9, pitch=-3.0, formant="shifted", noise=0.5,
-                   fx="lowpass=f=6500,equalizer=f=90:t=q:w=1:g=6,chorus=0.6:0.8:40|55:0.35|0.3:0.25|0.4:2|1.3,"
-                      "aecho=0.8:0.6:120|260:0.25|0.15,acompressor=threshold=-18dB:ratio=4"),
+    "vortex": dict(engine="piper", model="pt_BR-miro-high", speed=0.88, pitch=-2.0, formant="shifted", noise=0.45,
+                   fx="lowpass=f=8000,equalizer=f=90:t=q:w=1:g=5,equalizer=f=2500:t=q:w=1:g=3,"
+                      "chorus=0.85:0.9:25:0.15:0.2:1.5,aecho=0.9:0.45:70|120:0.1|0.06,acompressor=threshold=-18dB:ratio=4"),
     # VÓRTEX redimido (EP10): MESMO modelo e identidade, sem a "armadura" de coro e eco
     "vbot": dict(engine="piper", model="pt_BR-miro-high", speed=0.95, pitch=-0.5, formant="preserved", noise=0.6,
                  fx="highpass=f=90,equalizer=f=3000:t=q:w=1:g=2,aecho=0.6:0.3:30:0.15,acompressor=threshold=-20dB:ratio=2.5"),
@@ -51,19 +51,22 @@ EMOTIONS = {
     "neutro":    dict(),
     "calmo":     dict(speed=-0.05, pitch=-0.3),
     "ironia":    dict(speed=-0.08, pitch=-0.5, noise=+0.05),
-    "alegria":   dict(speed=+0.06, pitch=+1.0, gain=+1.5, noise=+0.1),
-    "empolgado": dict(speed=+0.12, pitch=+1.5, gain=+2.5, noise=+0.12),
+    "alegria":   dict(speed=+0.04, pitch=+0.6, gain=+1.5, noise=+0.05),
+    "empolgado": dict(speed=+0.07, pitch=+0.9, gain=+2.5, noise=+0.06),
     "raiva":     dict(speed=+0.03, pitch=+0.8, gain=+3.0, drive=True),
-    "grito":     dict(speed=+0.02, pitch=+1.4, gain=+4.0, drive=True, noise=+0.05),
-    "medo":      dict(speed=+0.10, pitch=+1.2, gain=-1.0, tremble=True, noise=+0.12),
-    "desespero": dict(speed=+0.12, pitch=+1.6, gain=+2.0, tremble=True, drive=True, noise=+0.08),
+    "grito":     dict(speed=+0.0, pitch=+1.0, gain=+4.0, drive=True),
+    "medo":      dict(speed=+0.06, pitch=+0.8, gain=-1.0, tremble=True, noise=+0.06),
+    "desespero": dict(speed=+0.06, pitch=+1.1, gain=+2.0, tremble=True, drive=True),
     "tristeza":  dict(speed=-0.16, pitch=-1.0, gain=-3.0, soft=True, noise=-0.05),
     "choro":     dict(speed=-0.12, pitch=+0.8, gain=-2.0, tremble=True, soft=True, noise=+0.1),
-    "surpresa":  dict(speed=+0.02, pitch=+1.8, gain=+1.5, noise=+0.12),
+    "surpresa":  dict(speed=+0.0, pitch=+1.1, gain=+1.5, noise=+0.06),
     "sussurro":  dict(speed=-0.06, pitch=-0.2, gain=-7.0, whisper=True),
     "ameaca":    dict(speed=-0.10, pitch=-0.8, gain=+1.0),
     "orgulho":   dict(speed=-0.02, pitch=+0.4, gain=+1.5),
 }
+
+LEXICON = {"Noob": "Nub", "Noobs": "Nubs", "Pro": "Prô", "obby": "óbi", "Patch": "Pétchi", "Reset": "Rizét", "hack": "réqui",
+           "ranking": "rênkin", "admin": "ádmin", "VÓRTEX": "Vórtex", "Uhuuul": "Uhúúl", "Cocoricó": "Có-có-ri-có"}
 
 _cache = {}
 
@@ -125,6 +128,9 @@ def speak(who, text, emo="neutro", seed=0):
     speed = p["speed"] * (1 + e.get("speed", 0))
     noise = float(np.clip(p.get("noise", 0.667) + e.get("noise", 0), 0.2, 1.0))
     pitch = p["pitch"] + e.get("pitch", 0)
+    # pronúncia: palavras estrangeiras/gamer reescritas foneticamente para o pt-BR
+    for k, v in LEXICON.items():
+        text = re.sub(rf"\b{k}\b", v, text, flags=re.I)
     # palavras em CAIXA ALTA seriam soletradas pelo fonetizador: a ênfase vem da emoção
     text = re.sub(r"\b[A-ZÀ-Ý]{2,}\b", lambda m: m.group(0).lower(), text)
     parts = [s.strip() for s in re.split(r"\.\.\.|…", text) if s.strip()]

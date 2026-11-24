@@ -41,7 +41,7 @@ export default {
       cam: { type: 'close', on: 'luna', side: 1 }, sfx: [['glitch', 0, 0.8, 1.0], ['alarm', 0.2, 0.4, 1.0]] },
     { say: 'vortex', emo: 'ameaca', text: 'Atenção, Vila dos Banidos.',
       chars: { vortex: { pos: [0, -12, -48], scale: 7.5, opacity: 0.85, anim: 'idle' } }, ui: [{ type: 'broadcast', dur: 9.5 }],
-      cam: { type: 'free', pos: [0, 3, 8], look: [0, 22, -48], fov: 52, end: { fov: 44 } }, sfx: [['rumble', 0, 0.7, 3.0]] },
+      cam: { type: 'free', pos: [-4, 2, -4], look: [0, 22, -48], fov: 52, end: { fov: 44 } }, sfx: [['rumble', 0, 0.7, 3.0]] },
     { say: 'vortex', emo: 'ameaca', text: 'Entreguem o Noob. Ou a vila inteira será apagada.', ui: [{ type: 'wanted', at: 0.4, dur: 3.6 }],
       cam: { type: 'low', on: 'vortex', side: 1, ang: 0.1, dist: 0.75, fov: 40 } },
     { beat: 1.6, env: { glitch: 0 }, chars: { vortex: { vis: false } },

@@ -179,12 +179,10 @@ base('vila', (g) => {
   const frags = [];
   for (let i = 0; i < 14; i++) { const s = 1.5 + hash(i + 70) * 3; const b = mesh(rbox(s, s * 0.6, s, 0.15), mat(0x4b4c5e)); const a = hash(i + 71) * Math.PI * 2, r = 30 + hash(i + 72) * 30; b.position.set(Math.cos(a) * r, -4 + hash(i + 73) * 18, Math.sin(a) * r - 15); b.userData = { y: b.position.y, ph: i }; g.add(b); frags.push(b); }
   return { frags, stall };
-}, { motes: true, sky: [0x0d0826, 0x3a1652, 0xa8456a], grid: 0.35, stars: 1, fog: [0x2a1438, 0.01], hemi: [0xa89cff, 0x5a3a2a, 1.15], key: [0xffe2c4, 2.2], rim: [0xff7ac8, 1.6], fill: [0xffa040, 60, [0, 4, 6]] });
+}, { motes: true, sky: [0x0d0826, 0x3a1652, 0xa8456a], grid: 0.35, stars: 1, fog: [0x2a1438, 0.01], hemi: [0xa89cff, 0x5a3a2a, 1.15], key: [0xffe2c4, 2.2], rim: [0xff7ac8, 1.6], fill: [0xffa040, 40, [0, 12, 16]] });
 
 // TORRE DO OBBY — sobre a lava
 base('torre', (g) => {
-  const pillar = mesh(rbox(5, 60, 5, 0.3), mat(0x4b4c5e)); pillar.position.set(0, 16, -6); g.add(pillar);
-  for (let i = 0; i < 12; i++) { const b = neonBlock([0xff3b5c, 0x3bb4ff, 0xffd23b, 0x4dff8a][i % 4], 0.2, 0.5, 5.1, 1.0); b.position.set(-2.55, -10 + i * 5, -6); g.add(b); }
   const steps = [];
   const P = [[0, -0.5, 0, 6, 4], [5, 3, -2, 2.6, 2.6], [8, 6.5, -6, 2.6, 2.6], [5, 10, -10.5, 2.4, 2.4], [0, 13.5, -12, 2.4, 2.4], [-5, 17, -10, 2.4, 2.4], [-8, 20.5, -6, 2.6, 2.6], [-5, 24, -1.5, 2.6, 2.6], [0, 27.5, 0, 6, 4.5]];
   P.forEach(([x, y, z, w, d], i) => { const c = [0x8b919a, 0xff3b5c, 0x3bb4ff, 0xffd23b, 0x4dff8a, 0xb45cff, 0xff8a1a, 0x3bf0ff, 0x8b919a][i]; const b = i === 0 || i === 8 ? mesh(rbox(w, 1, d, 0.18), [mat(c), mat(c), studMat(0xffffff, w / 2, d / 2), mat(c), mat(c), mat(c)]) : neonBlock(c, w, 0.8, d, 0.5); b.position.set(x, y, z); b.userData = { y, ph: i }; g.add(b); steps.push(b); });
@@ -197,8 +195,8 @@ base('torre', (g) => {
   const disc = new THREE.Mesh(new THREE.CircleGeometry(2.7, 48), new THREE.ShaderMaterial({ transparent: true, uniforms: { uTime: { value: 0 } }, side: THREE.DoubleSide,
     vertexShader: 'varying vec2 vUv; void main(){ vUv=uv; gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.); }',
     fragmentShader: 'varying vec2 vUv; uniform float uTime; void main(){ vec2 p=vUv-.5; float r=length(p); float a=atan(p.y,p.x); float s=sin(a*6.+r*30.-uTime*6.); vec3 c=mix(vec3(.1,.6,1.),vec3(.9,.3,1.),.5+.5*s); gl_FragColor=vec4(c*1.6,(1.-smoothstep(.45,.5,r))*.92); }' }));
-  portal.add(ringP, disc); portal.position.set(0, 31.5, -1.2); g.add(portal);
-  const pl = new THREE.PointLight(0x46e0ff, 60, 25, 1.6); pl.position.set(0, 31, 1); g.add(pl);
+  portal.add(ringP, disc); portal.position.set(0, 33.5, -5); g.add(portal);
+  const pl = new THREE.PointLight(0x46e0ff, 40, 25, 1.6); pl.position.set(0, 33, -2); g.add(pl);
   return { steps, lasers, portal, disc };
 }, { lava: true, embers: true, sky: [0x120d38, 0x8c2a6b, 0xff7329], fog: [0x3a1630, 0.0075], hemi: [0x9a8cff, 0xff6a2a, 1.1], key: [0xfff1dc, 2.4], rim: [0x6fd0ff, 1.8], fill: [0xff5a1a, 320, [0, -6, 6]] });
 
@@ -221,7 +219,7 @@ base('prisao', (g) => {
   }
   const wall = mesh(rbox(30, 14, 1, 0.2), mat(0xdfe6f2, { roughness: .8 })); wall.position.set(0, 7, -12); g.add(wall);
   return { panels, cages, wall };
-}, { sky: [0xdfe9ff, 0xf6f8ff, 0xffffff], grid: 0.0, stars: 0, fog: [0xe8eefb, 0.018], hemi: [0xffffff, 0xb8c8e8, 1.6], key: [0xffffff, 2.2], rim: [0x9ccfff, 1.2], fill: [0xff2a3a, 40, [0, 3, 2]] });
+}, { sky: [0xb8c8e8, 0xe6edf8, 0xffffff], grid: 0.0, stars: 0, fog: [0xdfe7f5, 0.008], hemi: [0xffffff, 0x8a9ab8, 0.9], key: [0xffffff, 2.4], rim: [0x9ccfff, 1.2], fill: [0xff2a3a, 30, [0, 9, 9]] });
 
 // SERVIDOR PRINCIPAL — mundo diurno que pode ser "deletado"
 base('servidor', (g) => {

@@ -7,7 +7,7 @@ Saídas em ../build/epNN/: audio.wav, audio.m4a, timeline.json, qa.json
 import difflib, hashlib, json, os, re, subprocess, sys, unicodedata
 import numpy as np
 import soundfile as sf
-from voicelab import speak, SR, MODELS, VOICES
+from voicelab import speak, SR, MODELS, VOICES, EMOTIONS, LEXICON
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
@@ -38,13 +38,14 @@ def norm(s):
     s = unicodedata.normalize("NFD", s.lower()); s = "".join(c for c in s if unicodedata.category(c) != "Mn")
     for d, w in {"72": "setenta e dois", "48": "quarenta e oito", "24": "vinte e quatro", "10": "dez", "7": "sete", "5": "cinco", "3": "tres", "2": "dois", "1": "um"}.items():
         s = re.sub(rf"\b{d}\b", w, s)
+    s = re.sub(r"\bnub(s?)\b", r"noob\1", s); s = re.sub(r"\bnoobi\b", "noob", s)
     return re.sub(r"[^a-z0-9 ]", " ", s).split()
 
 def score(ref, hyp):
     return difflib.SequenceMatcher(None, norm(ref), norm(hyp)).ratio()
 
 CACHE = os.path.join(ROOT, "build", "cache"); os.makedirs(CACHE, exist_ok=True)
-VOICE_VER = hashlib.md5(json.dumps(VOICES, sort_keys=True).encode()).hexdigest()[:8]
+VOICE_VER = hashlib.md5(json.dumps([VOICES, EMOTIONS, LEXICON], sort_keys=True).encode()).hexdigest()[:8]
 
 def best_take(who, text, emo, takes, speed_vars=(1.0, 0.96, 1.04, 0.92, 1.0, 0.98)):
     """Grava várias tomadas e fica com a de melhor pronúncia (cache em disco)."""
@@ -53,7 +54,8 @@ def best_take(who, text, emo, takes, speed_vars=(1.0, 0.96, 1.04, 0.92, 1.0, 0.9
     if os.path.exists(wav) and os.path.exists(meta):
         y, _ = sf.read(wav, dtype="float32"); return y, json.load(open(meta))
     best = None
-    for k in range(takes):
+    for k in range(max(takes, 9)):
+        if k >= takes and best[1]["score"] >= 0.75: break
         # varia levemente o ritmo entre as tomadas (como um dublador refazendo a fala)
         from voicelab import VOICES as Vv
         base = Vv[who]["speed"]; Vv[who]["speed"] = base * speed_vars[k % len(speed_vars)]
@@ -64,7 +66,9 @@ def best_take(who, text, emo, takes, speed_vars=(1.0, 0.96, 1.04, 0.92, 1.0, 0.9
         hyp = asr(y); sc = score(text, hyp)
         if best is None or sc > best[1]["score"] + 1e-6:
             best = (y, dict(take=k, score=round(sc, 3), asr=hyp))
-        if sc >= 0.93:
+        if sc >= 0.93 or (k >= takes - 1 and sc >= 0.75):
+            break
+        if k >= takes - 1 and best[1]["score"] >= 0.75:
             break
     sf.write(wav, best[0], SR); json.dump(best[1], open(meta, "w"), ensure_ascii=False)
     return best

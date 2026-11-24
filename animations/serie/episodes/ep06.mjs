@@ -3,10 +3,10 @@ export default {
   n: 6, title: 'TRAIÇÃO', next: 'DENTRO DO CÓDIGO', set: 'torre',
   events: [
     { beat: 2.8, music: 'tensao', ui: [{ type: 'countdown', text: '47:41:03' }],
-      chars: { noob: { pos: [-0.8, 28.6, 0.6], to: [0, 31.3, -1.4], dur: 2.4, anim: 'float', face: 'sad', rot: 0 }, drone1: { pos: [-2.5, 32, 2], to: [-1.8, 32.5, -1.4], dur: 2.4 }, drone2: { pos: [2, 32.5, 2], to: [1.8, 32.8, -1.4], dur: 2.4 },
+      chars: { noob: { pos: [-0.8, 28.6, 0.6], to: [0, 31.4, -5], dur: 2.4, anim: 'float', face: 'sad', rot: 0 }, drone1: { pos: [-2.5, 32, 2], to: [-1.8, 33, -5], dur: 2.4 }, drone2: { pos: [2, 32.5, 2], to: [1.8, 33.3, -5], dur: 2.4 },
         luna: { pos: [-2.2, 28, 0.6], rot: 160, props: { tablet: false, whip: true }, face: 'scared', anim: 'reach' }, pipoca: { pos: [0.9, 28, 1.6], rot: 190, face: 'cry', anim: 'reach' }, pro: { pos: [2.6, 28, 1.0], rot: 200, props: { feather: true }, face: 'sad' } },
-      fx: [{ type: 'beam', at: 0, on: 'noob', dy: -4.7, color: 0xff2a3a, dur: 2.6, size: 0.8 }, { type: 'sparkle', at: 2.3, pos: [0, 31.5, -1.2], color: 0x46e0ff, size: 2.5 }],
-      cam: { type: 'free', pos: [0, 29, 12], look: [0, 31, -1], fov: 46, end: { pos: [0, 30, 9] } }, sfx: [['hum', 0, 0.6, 2.6], ['teleport', 2.2, 0.9]] },
+      fx: [{ type: 'beam', at: 0, on: 'noob', dy: -4.7, color: 0xff2a3a, dur: 2.6, size: 0.8 }, { type: 'sparkle', at: 2.3, pos: [0, 33.5, -5], color: 0x46e0ff, size: 2.5 }],
+      cam: { type: 'free', pos: [0, 30, 12], look: [0, 32, -3], fov: 48, end: { pos: [0, 31, 9] } }, sfx: [['hum', 0, 0.6, 2.6], ['teleport', 2.2, 0.9]] },
     { say: 'luna', emo: 'grito', text: 'Pro! O que foi que você fez?!',
       chars: { noob: { vis: false }, drone1: { vis: false }, drone2: { vis: false }, luna: { rot: 80, anim: 'idle', face: 'angry' }, pro: { rot: -100, face: 'sad' }, pipoca: { rot: 120, anim: 'sad' } },
       cam: { type: 'close', on: 'luna', side: 1 } },
