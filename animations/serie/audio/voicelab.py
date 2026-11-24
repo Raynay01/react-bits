@@ -31,8 +31,9 @@ VOICES = {
                    fx="highpass=f=180,equalizer=f=4000:t=q:w=1:g=2,acompressor=threshold=-20dB:ratio=2.5"),
     "vovo": dict(engine="kokoro", model="pm_santa", speed=0.88, pitch=-1.0, formant="preserved",
                  fx="vibrato=f=5:d=0.025,lowpass=f=7500,equalizer=f=220:t=q:w=1:g=3,acompressor=threshold=-20dB:ratio=2"),
-    "ze": dict(engine="piper", model="pt_PT-tugao-medium", speed=0.95, pitch=-1.2, formant="preserved", noise=0.6,
-               fx="equalizer=f=180:t=q:w=1:g=3,equalizer=f=900:t=q:w=1:g=2,lowpass=f=8000,acompressor=threshold=-20dB:ratio=2.5"),
+    # Zé: modelo Kokoro "im_nicola" com fonetização de PORTUGAL (lang="pt") -> sotaque português europeu
+    "ze": dict(engine="kokoro", model="im_nicola", lang="pt", speed=0.95, pitch=-0.8, formant="preserved",
+               fx="equalizer=f=180:t=q:w=1:g=3,equalizer=f=900:t=q:w=1:g=2,lowpass=f=9000,acompressor=threshold=-20dB:ratio=2.5"),
     "vortex": dict(engine="piper", model="pt_BR-miro-high", speed=0.88, pitch=-2.0, formant="shifted", noise=0.45,
                    fx="lowpass=f=8000,equalizer=f=90:t=q:w=1:g=5,equalizer=f=2500:t=q:w=1:g=3,"
                       "chorus=0.85:0.9:25:0.15:0.2:1.5,aecho=0.9:0.45:70|120:0.1|0.06,acompressor=threshold=-18dB:ratio=4"),
@@ -60,7 +61,7 @@ EMOTIONS = {
     "tristeza":  dict(speed=-0.16, pitch=-1.0, gain=-3.0, soft=True, noise=-0.05),
     "choro":     dict(speed=-0.12, pitch=+0.8, gain=-2.0, tremble=True, soft=True, noise=+0.1),
     "surpresa":  dict(speed=+0.0, pitch=+1.1, gain=+1.5, noise=+0.06),
-    "sussurro":  dict(speed=-0.06, pitch=-0.2, gain=-7.0, whisper=True),
+    "sussurro":  dict(speed=-0.06, pitch=-0.2, gain=-5.0, whisper=True),
     "ameaca":    dict(speed=-0.10, pitch=-0.8, gain=+1.0),
     "orgulho":   dict(speed=-0.02, pitch=+0.4, gain=+1.5),
 }
@@ -83,11 +84,11 @@ def _piper(model, text, speed, noise):
     return x.astype(np.float32), v.config.sample_rate
 
 
-def _kokoro(model, text, speed):
+def _kokoro(model, text, speed, lang="pt-br"):
     from kokoro_onnx import Kokoro
     if "_kokoro" not in _cache:
         _cache["_kokoro"] = Kokoro(f"{MODELS}/kokoro-v1.0.onnx", f"{MODELS}/voices-v1.0.bin")
-    s, sr = _cache["_kokoro"].create(text, voice=model, speed=speed, lang="pt-br")
+    s, sr = _cache["_kokoro"].create(text, voice=model, speed=speed, lang=lang)
     return s.astype(np.float32), sr
 
 
@@ -144,7 +145,7 @@ def speak(who, text, emo="neutro", seed=0):
         else:
             # o Kokoro corta o final da frase acima de ~1.1x: o excesso vira time-stretch
             ks = min(speed, 1.0)
-            x, sr = _kokoro(p["model"], part, ks)
+            x, sr = _kokoro(p["model"], part, ks, p.get("lang", "pt-br"))
             if speed / ks > 1.01:
                 x = _ffmpeg(x, sr, f"atempo={speed / ks:.3f}")
                 sr = SR
@@ -187,5 +188,5 @@ def _process(x, sr, p, e, pitch):
     if e.get("whisper"):
         rng = np.random.default_rng(3)
         env = np.abs(y); env = np.convolve(env, np.ones(400) / 400, mode="same")
-        y = y * 0.5 + rng.standard_normal(len(y)).astype(np.float32) * env * 0.9
+        y = y * 0.75 + rng.standard_normal(len(y)).astype(np.float32) * env * 0.35
     return y.astype(np.float32)

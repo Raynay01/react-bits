@@ -84,7 +84,7 @@ Toda a dublagem é gerada por síntese de voz neural local. **Cada personagem us
 ### Zé Tijolo
 1. **Personalidade:** mercador exagerado, otimista e trambiqueiro de bom coração.
 2. **Voz:** masculina madura e calorosa, com **sotaque português de Portugal**.
-3. **Timbre e tom:** médio-grave e encorpado, formantes de um homem mais robusto. Modelo Piper `pt_PT-tugao`, −1,5 semitom.
+3. **Timbre e tom:** médio-grave e encorpado, graves quentes (+3 dB em 180 Hz). Modelo Kokoro `im_nicola` com **fonetização de Portugal** (`lang=pt`), −0,8 semitom. O modelo Piper `pt_PT-tugao` foi testado e descartado, porque produzia fala incompreensível em várias frases.
 4. **Ritmo:** cantado, típico de vendedor, com expressões como "ó pá" e "pois".
 5. **Sotaque:** português europeu, vogais fechadas.
 6. **Emoções:** alegria (padrão), pânico cômico, bravura inesperada (EP8).

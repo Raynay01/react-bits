@@ -45,11 +45,12 @@ def score(ref, hyp):
     return difflib.SequenceMatcher(None, norm(ref), norm(hyp)).ratio()
 
 CACHE = os.path.join(ROOT, "build", "cache"); os.makedirs(CACHE, exist_ok=True)
-VOICE_VER = hashlib.md5(json.dumps([VOICES, EMOTIONS, LEXICON], sort_keys=True).encode()).hexdigest()[:8]
+VOICE_CODE = hashlib.md5(open(os.path.join(HERE, "voicelab.py"), "rb").read().split(b"# ---------------------------------------------------------------- BÍBLIA VOCAL")[0] + open(os.path.join(HERE, "voicelab.py"), "rb").read().split(b"_cache = {}")[-1]).hexdigest()[:8]
 
 def best_take(who, text, emo, takes, speed_vars=(1.0, 0.96, 1.04, 0.92, 1.0, 0.98)):
     """Grava várias tomadas e fica com a de melhor pronúncia (cache em disco)."""
-    h = hashlib.md5(f"{VOICE_VER}|{who}|{emo}|{text}|{takes}".encode()).hexdigest()[:16]
+    ver = json.dumps([VOICES[who], EMOTIONS[emo], LEXICON, VOICE_CODE], sort_keys=True)   # só regrava a voz que mudou
+    h = hashlib.md5(f"{ver}|{who}|{emo}|{text}|{takes}".encode()).hexdigest()[:16]
     wav, meta = f"{CACHE}/{h}.wav", f"{CACHE}/{h}.json"
     if os.path.exists(wav) and os.path.exists(meta):
         y, _ = sf.read(wav, dtype="float32"); return y, json.load(open(meta))

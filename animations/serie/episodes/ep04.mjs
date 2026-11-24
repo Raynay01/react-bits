@@ -37,6 +37,6 @@ export default {
     { say: 'vortex', emo: 'ameaca', text: 'Kauã. Eu posso te devolver tudo. Sua conta. Seu ranking. Basta me entregar o Noob.',
       ui: [{ type: 'broadcast', label: 'MENSAGEM PRIVADA • VÓRTEX', dur: 7 }], cam: { type: 'ots', from: 'pro', to: 'drone1', dist: 3.6 } },
     { beat: 1.3, chars: { pro: { face: 'think', anim: 'think' } }, cam: { type: 'xclose', on: 'pro', side: -1, push: 0.15 }, sfx: [['heartbeat', 0, 0.9, 1.5]] },
-    { say: 'pro', emo: 'sussurro', text: '...Qual é o plano?', post: 0.8, chars: { pro: { anim: 'idle', face: 'determined' } }, cam: { type: 'xclose', on: 'pro', side: 1, push: 0.2 } },
+    { say: 'pro', emo: 'sussurro', text: 'Tá bom... qual é o plano?', post: 0.8, chars: { pro: { anim: 'idle', face: 'determined' } }, cam: { type: 'xclose', on: 'pro', side: 1, push: 0.2 } },
   ],
 };
