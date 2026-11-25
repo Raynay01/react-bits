@@ -44,7 +44,7 @@ export default {
       cam: { type: 'close', on: 'vovo', side: 1 }, sfx: [['laser', 'end-0.3'], ['teleport', 'end-0.2', 0.8]], shake: { at: 'end-0.2', amp: 0.3 } },
     { beat: 1.4, chars: { vovo: { to: [7.5, 14, 13], dur: 1.2, ease: 'in', anim: 'float', face: 'scared' }, noob: { anim: 'reach', face: 'scared' } },
       cam: { type: 'free', pos: [3, 1.5, 21], look: [7, 6, 13], fov: 48, end: { look: [7, 12, 13] } } },
-    { say: 'noob', emo: 'desespero', text: 'VOVÔ!', post: 0.9, chars: { vovo: { vis: false }, drone1: { vis: false }, drone2: { vis: false }, drone3: { vis: false }, noob: { anim: 'kneel', face: 'cry' } },
+    { say: 'noob', emo: 'desespero', text: 'Vovô! Não! Vovô!', post: 0.9, chars: { vovo: { vis: false }, drone1: { vis: false }, drone2: { vis: false }, drone3: { vis: false }, noob: { anim: 'kneel', face: 'cry' } },
       cam: { type: 'free', pos: [3, 14, 18], look: [3, 0, 12], fov: 40, end: { pos: [3, 20, 16], fov: 50 } } },
   ],
 };

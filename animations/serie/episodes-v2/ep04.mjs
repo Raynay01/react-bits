@@ -22,7 +22,7 @@ export default {
     { beat: 1.4, music: 'tensao',
       chars: { pipoca: { pos: [2.5, 0, 4], anim: 'idle', look: null, rot: 0, face: 'happy' }, pro: { anim: 'idle', face: 'neutral' }, block: { pos: [2.5, 16, 4], to: [2.5, 6, 4], dur: 1.4, ease: 'linear' } },
       cam: { type: 'free', pos: [-1, 2, 12], look: [2.5, 7, 4], fov: 52 }, sfx: [['fall', 0, 0.9]] },
-    { say: 'noob', emo: 'grito', text: 'PIPOCA!', pre: 0.05, post: 0.1, chars: { noob: { anim: 'reach', look: 'pipoca', face: 'scared' }, block: { to: [2.5, 5.2, 4], dur: 0.3 } }, cam: { type: 'close', on: 'noob', side: -1 } },
+    { say: 'noob', emo: 'grito', text: 'Pipoca! Sai daí!', pre: 0.05, post: 0.1, chars: { noob: { anim: 'reach', look: 'pipoca', face: 'scared' }, block: { to: [2.5, 5.2, 4], dur: 0.3 } }, cam: { type: 'close', on: 'noob', side: -1 } },
     { beat: 2.0, chars: { noob: { props: { key: true, aura: true, crown: true }, face: 'determined' }, pipoca: { anim: 'scared', face: 'scared' } },
       fx: [{ type: 'sparkle', at: 0, on: 'noob', dy: -1.5, color: 0xffd23a, size: 2.5, dur: 1.8 }, { type: 'sparkle', at: 0.2, pos: [2.5, 6.5, 4], color: 0xffd23a, size: 2.5, dur: 1.6 }],
       cam: { type: 'free', pos: [7, 2.5, 13], look: [1.5, 4.5, 4], fov: 46, end: { pos: [5, 3, 11] } }, ui: [{ type: 'flash', at: 0, dur: 0.35, amount: 0.7 }], sfx: [['power', 0], ['magic', 0.5, 0.7]] },

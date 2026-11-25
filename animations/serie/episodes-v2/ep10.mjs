@@ -32,7 +32,7 @@ export default {
       fx: [{ type: 'beam', at: 0, pos: [0, 0, 0], color: 0x46c8ff, dur: 1.6, size: 1.4 }, { type: 'sparkle', at: 0.4, pos: [0, 2.5, 0], color: 0xffffff, size: 2.5 }],
       cam: { type: 'free', pos: [0, 3.5, -7], look: [0, 3, 0], fov: 46, end: { pos: [0, 4, -5.5] } }, sfx: [['teleport', 0], ['ding', 1.0, 0.7]] },
     { say: 'noob', emo: 'ironia', text: 'Ué... alguém viu o meu hambúrguer?', chars: { noob: { rot: 180, anim: 'shrug', props: { burger: false } } }, cam: { type: 'close', on: 'noob', side: 1 } },
-    { say: 'pipoca', emo: 'empolgado', text: 'NOOB!', chars: { pipoca: { to: [0.2, 0.2, 1.2], dur: 0.5, anim: 'run', face: 'happy' }, noob: { anim: 'idle' } }, cam: { type: 'two', a: 'noob', b: 'pipoca', side: 1 }, sfx: [['footsteps', 0, 0.5, 0.5]] },
+    { say: 'pipoca', emo: 'empolgado', text: 'Noob! Você voltou!', chars: { pipoca: { to: [0.2, 0.2, 1.2], dur: 0.5, anim: 'run', face: 'happy' }, noob: { anim: 'idle' } }, cam: { type: 'two', a: 'noob', b: 'pipoca', side: 1 }, sfx: [['footsteps', 0, 0.5, 0.5]] },
     { say: 'luna', emo: 'alegria', text: 'Como?! Você... sumiu!', chars: { pipoca: { anim: 'hug' }, noob: { anim: 'hug', face: 'happy' }, luna: { face: 'happy', anim: 'idle' } }, cam: { type: 'close', on: 'luna', side: 1 } },
     { say: 'noob', emo: 'calmo', text: 'Todo jogador começa como Noob. Enquanto alguém entrar no jogo... eu não posso morrer.', chars: { noob: { anim: 'idle', face: 'smile' } }, cam: { type: 'close', on: 'noob', side: -1, push: 0.1 } },
     { say: 'noob', emo: 'sussurro', text: 'Valeu, Vovô.', post: 0.5, chars: { noob: { rot: 180, face: 'smile' } }, fx: [{ type: 'sparkle', at: 0.2, pos: [0, 9, 0], color: 0xffd23a, size: 3, dur: 2.0 }],

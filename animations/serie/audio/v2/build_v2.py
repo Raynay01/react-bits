@@ -39,6 +39,42 @@ def trim(x, thr=0.008):
     return x if not len(i) else x[max(0, i[0] - int(0.03 * SR)): i[-1] + int(0.08 * SR)]
 
 
+def smart_trim(x):
+    """Remove artefatos do Chatterbox: sílabas 'alucinadas' isoladas no fim, ruído
+    residual, e encurta pausas internas exageradas (máx. 0,6 s)."""
+    hop = int(0.05 * SR); n = len(x) // hop
+    if n < 4: return x
+    rms = np.array([np.sqrt(np.mean(x[i * hop:(i + 1) * hop] ** 2)) for i in range(n)])
+    thr = max(0.012, 0.08 * np.percentile(rms, 95))
+    v = rms > thr
+    segs = []; i = 0
+    while i < n:
+        if v[i]:
+            j = i
+            while j < n and v[j]: j += 1
+            segs.append([i, j]); i = j
+        else: i += 1
+    if not segs: return x
+    # junta segmentos separados por < 0,15 s
+    m = [segs[0]]
+    for a, b in segs[1:]:
+        if a - m[-1][1] <= 3: m[-1][1] = b
+        else: m.append([a, b])
+    # descarta cauda curta isolada (alucinação / respiração final)
+    if len(m) > 1 and (m[-1][0] - m[-2][1]) >= 10 and (m[-1][1] - m[-1][0]) <= 12 and m[-2][1] - m[0][0] >= 20:
+        m.pop()   # no máximo UM trecho final isolado e curto
+    if len(m) > 1 and (m[0][1] - m[0][0]) <= 3 and (m[1][0] - m[0][1]) >= 10:
+        m.pop(0)
+    out = []
+    for k, (a, b) in enumerate(m):
+        a0 = max(0, a * hop - int(0.03 * SR)); b0 = min(len(x), b * hop + int(0.06 * SR))
+        if k: out.append(np.zeros(int(min((a - m[k - 1][1]) * hop / SR, 0.6) * SR), np.float32))
+        out.append(x[a0:b0])
+    y = np.concatenate(out)
+    f = min(len(y), int(0.03 * SR)); y[-f:] *= np.linspace(1, 0, f)
+    return y
+
+
 def liveliness(y):
     y16 = librosa.resample(y, orig_sr=SR, target_sr=16000)
     f0, _, _ = librosa.pyin(y16, fmin=60, fmax=700, sr=16000)
@@ -56,7 +92,7 @@ def pick(who, emo, text, ex):
         if post:
             for stage in post.split("|"):
                 x = ff(np.concatenate([np.zeros(int(0.4 * SR), np.float32), x, np.zeros(int(0.6 * SR), np.float32)]) if "rubberband" in stage else x, stage)
-        x = trim(x)
+        x = smart_trim(x)
         hyp = B.asr(x); sc = B.score(text, hyp); lv = liveliness(x)
         cand = (sc + 0.02 * min(lv, 4), x, dict(take=os.path.basename(p), score=round(sc, 3), asr=hyp, entonacao_st=round(lv, 2)))
         if best is None or cand[0] > best[0]:

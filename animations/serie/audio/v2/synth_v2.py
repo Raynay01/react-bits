@@ -6,7 +6,7 @@ Grava em build-v2/cache/<hash>_<take>.wav. A escolha da melhor tomada e a mixage
 ficam em build_v2.py (ambiente principal, que tem o Whisper para o QA).
 """
 import hashlib, json, os, re, subprocess, sys, time
-import numpy as np, soundfile as sf, torch
+import numpy as np, soundfile as sf
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 SERIE = os.path.dirname(os.path.dirname(HERE))
@@ -36,18 +36,24 @@ def main():
     n = int(sys.argv[1]); takes = int(sys.argv[sys.argv.index("--takes") + 1]) if "--takes" in sys.argv else 2
     cache = os.path.join(SERIE, "build-v2", "cache"); os.makedirs(cache, exist_ok=True)
     ep = load_episode(n)
+    # --retake: tomadas extras só para falas com pronúncia ruim no último QA
+    weak = set()
+    if "--retake" in sys.argv:
+        qa = os.path.join(SERIE, "build-v2", f"ep{n:02d}", "qa.json")
+        if os.path.exists(qa):
+            weak = {l["text"] for l in json.load(open(qa))["lines"] if l["score"] < 0.75}
     todo = []
     for e in ep["events"]:
         if "say" not in e: continue
         who = e.get("voice", e["say"]); emo = e.get("emo", "neutro")
         h = line_key(who, emo, e["text"], e.get("ex"))
-        for k in range(takes):
+        for k in range(takes + (2 if e["text"] in weak else 0)):
             if not os.path.exists(f"{cache}/{h}_{k}.wav"):
                 todo.append((who, emo, e["text"], e.get("ex"), h, k))
     print(f"EP{n:02d}: {len(todo)} tomadas a gerar", flush=True)
     if not todo: return
+    import torch, cbvoice
     torch.set_num_threads(os.cpu_count())
-    import cbvoice
     m = cbvoice.load()
     for who, emo, text, ex, h, k in todo:
         p = dict(EMOTIONS[emo]); p.update(ex or {})

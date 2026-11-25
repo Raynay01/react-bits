@@ -32,7 +32,7 @@ export default {
     { say: 'noob', emo: 'calmo', text: 'Ele não precisa ser vencido. Ele precisa do que faltou nele.', chars: { noob: { anim: 'idle', face: 'smile' } }, cam: { type: 'close', on: 'noob', side: 1 } },
     { beat: 1.4, chars: { noob: { to: [-0.5, 0.4, -4], dur: 1.4, anim: 'walk', face: 'determined' } }, cam: { type: 'free', pos: [0, 3, 10], look: [0, 10, -20], fov: 50 }, sfx: [['footsteps', 0, 0.5, 1.4]] },
     { say: 'pro', as: 'chicken', emo: 'desespero', text: 'Noob, não! Se você entregar a chave, você some!', chars: { chicken: { anim: 'run' } }, cam: { type: 'close', on: 'chicken', side: -1, dist: 7 } },
-    { say: 'noob', emo: 'calmo', text: 'Eu sei.', post: 0.6, chars: { noob: { rot: 0, face: 'smile' } }, cam: { type: 'close', on: 'noob', side: 1 } },
+    { say: 'noob', emo: 'calmo', text: 'Eu sei, Pro. Eu sei.', post: 0.6, chars: { noob: { rot: 0, face: 'smile' } }, cam: { type: 'close', on: 'noob', side: 1 } },
     { say: 'noob', emo: 'calmo', text: 'Você quer a chave? Então toma. Ela é sua.', chars: { noob: { rot: 180, anim: 'reach' } }, cam: { type: 'ots', from: 'noob', to: 'vortex', dist: 4 } },
     { beat: 2.6, music: 'silencio', env: { quake: 0, panic: 0 },
       chars: { noob: { opacity: 0, fadeAt: 0.9, fade: 1.2, anim: 'armsup', props: { key: false } } },

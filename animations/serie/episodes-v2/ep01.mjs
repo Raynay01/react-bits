@@ -13,7 +13,7 @@ export default {
       fx: [{ type: 'explosion', pos: [0, 0.2, 0], size: 0.9, pal: 'purple' }], shake: { amp: 0.5, dur: 0.6 }, sfx: [['slam', 0]] },
     { say: 'noob', emo: 'ironia', text: 'Ai... Tá bom. Banido. Primeira vez pra tudo.',
       chars: { noob: { anim: 'kneel', face: 'smile' } }, cam: { type: 'close', on: 'noob', side: 1 } },
-    { say: 'pro', as: 'chicken', emo: 'grito', text: 'VOCÊ!',
+    { say: 'pro', as: 'chicken', emo: 'grito', text: 'Você! É você!',
       chars: { noob: { anim: 'idle', face: 'shock', look: 'chicken' }, chicken: { pos: [5, 0, -1.5], scale: 0.85, look: 'noob', anim: 'flap' } },
       cam: { type: 'free', pos: [1.5, 2.6, 6.2], look: [5, 3.6, -1.5], fov: 40, end: { fov: 30 } }, sfx: [['cluck', 0.05, 0.9]], shake: { amp: 0.2, dur: 0.4 } },
     { say: 'pro', as: 'chicken', emo: 'raiva', text: 'Olha o que você fez comigo, mano! Eu era top um do ranking!',
