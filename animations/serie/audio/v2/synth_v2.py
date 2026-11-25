@@ -28,7 +28,8 @@ def prep_text(text):
 
 
 def line_key(who, emo, text, ex):
-    v = json.dumps([VOICES[who], EMOTIONS[emo], ex, LEXICON], sort_keys=True)
+    gen = {k: VOICES[who][k] for k in ("ex_scale", "temp") if k in VOICES[who]}
+    v = json.dumps([VOICES[who]["ref"], EMOTIONS[emo], ex, LEXICON] + ([gen] if gen else []), sort_keys=True)   # o pós-processamento (post) é aplicado na mixagem
     return hashlib.md5(f"{v}|{who}|{emo}|{text}".encode()).hexdigest()[:16]
 
 
@@ -57,6 +58,7 @@ def main():
     m = cbvoice.load()
     for who, emo, text, ex, h, k in todo:
         p = dict(EMOTIONS[emo]); p.update(ex or {})
+        p["ex"] *= VOICES[who].get("ex_scale", 1.0); p["temp"] = min(p["temp"], VOICES[who].get("temp", 9))
         torch.manual_seed(1000 * k + 7)
         t = time.time()
         w = m.generate(prep_text(text), language_id="pt", audio_prompt_path=ref_path(VOICES[who]["ref"]),

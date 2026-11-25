@@ -26,10 +26,10 @@ VOICES = {
     "noob":    dict(ref="noob.wav",    post=None),
     "pro":     dict(ref="pro.wav",     post=None),
     "luna":    dict(ref="luna.wav",    post=None),
-    "pipoca":  dict(ref="pipoca.wav",  post=None),
+    "pipoca":  dict(ref="pipoca.wav",  post=None, ex_scale=0.7, temp=0.7, tempo=1.22),   # voz infantil é instável com exagero alto
     "vovo":    dict(ref="vovo.wav",    post=None),
-    "ze":      dict(ref="ze.wav",      post=None),
-    "vortex":  dict(ref="vortex.wav",  post="rubberband=pitch=0.84:formant=shifted|lowpass=f=8000,equalizer=f=90:t=q:w=1:g=5,chorus=0.85:0.9:25:0.15:0.2:1.5,aecho=0.9:0.45:70|120:0.1|0.06,acompressor=threshold=-18dB:ratio=4"),
+    "ze":      dict(ref="ze.wav",      post=None, tempo=1.15),
+    "vortex":  dict(ref="vortex.wav",  post="rubberband=pitch=0.84:formant=shifted;;lowpass=f=8000,equalizer=f=90:t=q:w=1:g=5,chorus=0.85:0.9:25:0.15:0.2:1.5,aecho=0.9:0.45:70|120:0.1|0.06,acompressor=threshold=-18dB:ratio=4"),
     # VÓRTEX redimido (EP10): mesma referência, sem a "armadura" de efeitos
     "vbot":    dict(ref="vortex.wav",  post="highpass=f=90,equalizer=f=3000:t=q:w=1:g=2,aecho=0.6:0.3:30:0.15"),
     "sistema": dict(ref="sistema.wav", post="highpass=f=300,lowpass=f=5200,acrusher=bits=10:mix=0.25,aecho=0.6:0.4:35:0.25"),

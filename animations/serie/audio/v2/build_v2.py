@@ -95,10 +95,15 @@ def pick(who, emo, text, ex):
         x = librosa.resample(x, orig_sr=sr, target_sr=SR)
         post = VOICES[who]["post"]
         if post:
-            for stage in post.split("|"):
+            for stage in post.split(";;"):
                 x = ff(np.concatenate([np.zeros(int(0.4 * SR), np.float32), x, np.zeros(int(0.6 * SR), np.float32)]) if "rubberband" in stage else x, stage)
-        x = smart_trim(x)
-        hyp = B.asr(x); sc = B.score(text, hyp); lv = liveliness(x)
+        if VOICES[who].get("tempo"):
+            x = ff(np.concatenate([x, np.zeros(int(0.3 * SR), np.float32)]), f"rubberband=tempo={VOICES[who]['tempo']}:pitchq=quality")
+        xt = smart_trim(x); xr = trim(x)
+        ht, hr = B.asr(xt), B.asr(xr)
+        st_, sr_ = B.score(text, ht), B.score(text, hr)
+        x, hyp, sc = (xt, ht, st_) if st_ >= sr_ - 0.02 else (xr, hr, sr_)   # só aceita o corte se não piorar a fala
+        lv = liveliness(x)
         cand = (sc + 0.02 * min(lv, 4), x, dict(take=os.path.basename(p), score=round(sc, 3), asr=hyp, entonacao_st=round(lv, 2)))
         if best is None or cand[0] > best[0]:
             best = cand
