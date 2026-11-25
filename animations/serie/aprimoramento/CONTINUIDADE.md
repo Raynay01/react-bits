@@ -68,3 +68,19 @@ Este é o documento de referência obrigatório: consulte-o antes de escrever ou
 - **O Vovô Byte não volta.** Ele só aparece como legado, sem nova fala.
 - A contagem do Reset nunca pode andar para trás. A exceção é a pausa do EP10.
 - **O VÓRTEX redimido usa o mesmo modelo de voz**, sem a "armadura" de efeitos. É uma mudança justificada pela narrativa.
+
+## 6. Situação das correções na v2 (`episodes-v2/`)
+| # | Correção | Status | Onde |
+|---|---|---|---|
+| P1 | Origem do VÓRTEX ligada ao piloto | ✅ | EP1: "Então foi você... que acordou ele." EP3: o Vovô revela que o uso da Chave para transformar o Pro em galinha acordou o VÓRTEX. |
+| P2 | Passado da Luna | ✅ | EP2: "Eu conheço essa voz...". EP3: "Era isso que eu vi nos registros... antes de me banirem." |
+| P3 | Nome "Kauã" | ✅ | EP2: a Luna lê o perfil do Pro. |
+| P4 | Botão vermelho da Pipoca | ✅ | EP2: o chaveiro aparece em cena. Paga no EP9. |
+| P5 | Falha do estalo no EP1 | ✅ | EP4: "Lá no Limbo eu quis me vingar. Por isso não funcionou." |
+| P6 | Paradeiro do Zé | ✅ | EP5: fica na base da torre. EP8: vai buscar a vila. EP10: chega com a vila. |
+| P7 | Amizade Noob–Pro | ✅ | EP4: cena de cumplicidade ("Conta como proteção!" / "Valeu, Noob."), que dá peso à traição. |
+| P8 | Ação da traição | ⚠ parcial | Continua o Pro mexendo no tablet com o aviso "VÓRTEX: AGORA". Não há gesto novo. |
+| P9 | Aldeões hostis em cena | ❌ não feito | Exige um elenco novo de aldeões com voz. Ficou para uma próxima versão. |
+| P10 | Reparação do VÓRTEX com a Luna | ✅ | EP10: "Começando por você, Luna. Sua conta... restaurada." |
+
+**Regras novas da v2:** R10, a Chave foi usada pela primeira vez em anos no piloto, e isso acordou o VÓRTEX. R11, a Luna era moderadora e foi banida por investigar o VÓRTEX.
