@@ -65,11 +65,16 @@ def smart_trim(x):
         m.pop()   # no máximo UM trecho final isolado e curto
     if len(m) > 1 and (m[0][1] - m[0][0]) <= 3 and (m[1][0] - m[0][1]) >= 10:
         m.pop(0)
-    out = []
-    for k, (a, b) in enumerate(m):
-        a0 = max(0, a * hop - int(0.03 * SR)); b0 = min(len(x), b * hop + int(0.06 * SR))
-        if k: out.append(np.zeros(int(min((a - m[k - 1][1]) * hop / SR, 0.6) * SR), np.float32))
-        out.append(x[a0:b0])
+    # mantém o áudio contínuo (consoantes suaves entre sílabas ficam!) e só
+    # encurta pausas maiores que 0,6 s, removendo o meio delas
+    start = max(0, m[0][0] * hop - int(0.03 * SR)); end = min(len(x), m[-1][1] * hop + int(0.06 * SR))
+    out = []; cur = start
+    for k in range(1, len(m)):
+        g0, g1 = m[k - 1][1] * hop, m[k][0] * hop
+        if (g1 - g0) / SR > 0.6:
+            keep = int(0.3 * SR)
+            out.append(x[cur:g0 + keep]); cur = g1 - keep
+    out.append(x[cur:end])
     y = np.concatenate(out)
     f = min(len(y), int(0.03 * SR)); y[-f:] *= np.linspace(1, 0, f)
     return y
