@@ -15,8 +15,8 @@ CAST = {
  "noob": ("A friendly young Brazilian man, about 19 years old, warm mid-range voice with a soft smile in it, relaxed and playful, "
           "naturally ironic, clear diction, unhurried rhythm, Brazilian Portuguese accent from São Paulo.",
           "Relaxa, sério. Eu já caí em lugar muito pior... tipo o tutorial. Mas olha, se a gente ficar junto, dá certo. Confia em mim."),
- "pro":  ("An arrogant, energetic Brazilian teenage boy, about 14 years old, slightly raspy voice that is breaking, fast and punchy speech, "
-          "competitive gamer slang, loud and cocky, Brazilian Portuguese accent from Rio de Janeiro.",
+ "pro":  ("Male voice. An arrogant, energetic Brazilian teenage boy, about 16 years old, his voice has already changed: low-mid male pitch, "
+          "slightly raspy and nasal, fast and punchy speech, loud and cocky gamer, Brazilian Portuguese accent from Rio de Janeiro.",
           "Sai da frente, novato! Quem manda nesse servidor sou eu, beleza? Eu sou top um do ranking, mano. Ninguém me vence."),
  "luna": ("A sharp, confident Brazilian young woman, about 20 years old, crisp clear mid-high voice, dry sarcastic delivery, "
           "short precise sentences, calm under pressure, Brazilian Portuguese accent.",
@@ -27,8 +27,8 @@ CAST = {
  "vovo": ("A wise, warm elderly Brazilian man, about 75 years old, deep velvety voice with a slight tremble of age, "
           "slow storyteller pace with long pauses, gentle and melancholic, formal Brazilian Portuguese.",
           "Eu construí o primeiro bloco deste mundo, meu jovem... e vi cada um deles cair. Mas ainda acredito em vocês."),
- "ze":   ("A cheerful, exaggerated Portuguese merchant from Lisbon, about 50 years old, warm full baritone, sing-song salesman rhythm, "
-          "European Portuguese accent from Portugal, jovial and a bit of a trickster.",
+ "ze":   ("Male voice, low pitch. A cheerful, chubby middle-aged Portuguese man from Lisbon, about 50 years old, deep warm baritone, "
+          "sing-song street-merchant rhythm, strong European Portuguese accent from Portugal, jovial trickster.",
           "Ó pá, aqui no Limbo tudo se vende! Até a esperança, e hoje com desconto. Pois, pois, aproveite, que amanhã sobe o preço!"),
  "vortex": ("A colossal, cold artificial intelligence with a very deep, slow, resonant male voice, emotionless and absolute, "
             "every word deliberate, synthetic but intelligible, neutral Portuguese.",

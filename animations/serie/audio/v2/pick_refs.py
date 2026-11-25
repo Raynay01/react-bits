@@ -32,10 +32,14 @@ for who in CAST:
         cands.setdefault(who, []).append(dict(path=p, score=sc, emb=e, f0=float(np.median(f)), st=float(np.std(12 * np.log2(f / np.median(f))))))
         print(f"{os.path.basename(p):12s} pronúncia={sc:.2f} f0={np.median(f):5.0f}Hz entonação={cands[who][-1]['st']:.2f}st")
 names = list(cands)
+# faixa de altura esperada (Hz) por personagem: evita, p.ex., um "barítono" com voz aguda
+F0 = {"noob": (90, 190), "pro": (120, 230), "luna": (170, 330), "pipoca": (260, 600), "vovo": (70, 150), "ze": (75, 160),
+      "vortex": (50, 140), "sistema": (80, 180), "drone": (80, 320)}
 best = None
 for combo in itertools.product(*[range(len(cands[n])) for n in names]):
     sel = [cands[n][k] for n, k in zip(names, combo)]
-    if min(c["score"] for c in sel) < 0.6: continue
+    if min(c["score"] for c in sel) < 0.4: continue   # a referência só define o timbre; a fala final é regerada
+    if any(not (F0[n][0] <= c["f0"] <= F0[n][1]) for n, c in zip(names, sel)): continue   # idade/gênero coerentes
     sims = [float(a["emb"] @ b["emb"]) for a, b in itertools.combinations(sel, 2)]
     cost = max(sims) + 0.3 * np.mean(sims) - 0.2 * np.mean([c["score"] for c in sel])
     if best is None or cost < best[0]: best = (cost, combo)
