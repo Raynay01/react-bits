@@ -104,7 +104,10 @@ def pick(who, emo, text, ex):
         st_, sr_ = B.score(text, ht), B.score(text, hr)
         x, hyp, sc = (xt, ht, st_) if st_ >= sr_ - 0.02 else (xr, hr, sr_)   # só aceita o corte se não piorar a fala
         lv = liveliness(x)
-        cand = (sc + 0.02 * min(lv, 4), x, dict(take=os.path.basename(p), score=round(sc, 3), asr=hyp, entonacao_st=round(lv, 2)))
+        # duração esperada (~13 caracteres/s + pausas): tomadas muito longas são alucinação/repetição
+        exp = len(text) / 13.0 / VOICES[who].get("tempo", 1.0) + 0.45 * text.count("...") + 0.3
+        over = max(0.0, len(x) / SR / exp - 1.7)
+        cand = (sc + 0.02 * min(lv, 4) - 1.0 * over - (0.6 if over > 0 else 0), x, dict(take=os.path.basename(p), score=round(sc, 3), asr=hyp, entonacao_st=round(lv, 2), dur=round(len(x) / SR, 2), dur_esperada=round(exp, 2)))
         if best is None or cand[0] > best[0]:
             best = cand
     if best is None:

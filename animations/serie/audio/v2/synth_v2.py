@@ -42,13 +42,14 @@ def main():
     if "--retake" in sys.argv:
         qa = os.path.join(SERIE, "build-v2", f"ep{n:02d}", "qa.json")
         if os.path.exists(qa):
-            weak = {l["text"] for l in json.load(open(qa))["lines"] if l["score"] < 0.75}
+            weak = {l["text"] for l in json.load(open(qa))["lines"]
+                    if l["score"] < 0.75 or l.get("dur", 0) > 1.7 * l.get("dur_esperada", 99)}
     todo = []
     for e in ep["events"]:
         if "say" not in e: continue
         who = e.get("voice", e["say"]); emo = e.get("emo", "neutro")
         h = line_key(who, emo, e["text"], e.get("ex"))
-        for k in range(takes + (2 if e["text"] in weak else 0)):
+        for k in range(takes + (4 if e["text"] in weak else 0)):
             if not os.path.exists(f"{cache}/{h}_{k}.wav"):
                 todo.append((who, emo, e["text"], e.get("ex"), h, k))
     print(f"EP{n:02d}: {len(todo)} tomadas a gerar", flush=True)
