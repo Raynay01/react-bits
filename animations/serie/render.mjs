@@ -11,7 +11,8 @@ const arg = (k, d) => { const i = process.argv.indexOf(k); return i > 0 ? proces
 const n = String(process.argv[2]).padStart(2, '0');
 const threeDir = arg('--three', path.join(here, 'node_modules/three'));
 const preview = arg('--preview') ? arg('--preview').split(',').map(Number) : null;
-const buildDir = path.join(here, 'build', `ep${n}`);
+const V2 = process.argv.includes('--v2');
+const buildDir = path.join(here, V2 ? 'build-v2' : 'build', `ep${n}`);
 const out = arg('--out', path.join(buildDir, `ep${n}.mp4`));
 const FPS = 30, W = 720, H = 1280;
 
@@ -27,7 +28,7 @@ await page.route('**/*', route => {
   if (!fs.existsSync(file)) return route.fulfill({ status: 404, body: '' });
   route.fulfill({ status: 200, body: fs.readFileSync(file), contentType: types[path.extname(file)] || 'application/octet-stream' });
 });
-await page.goto(`http://serie.local/player.html?ep=${n}&render=1`);
+await page.goto(`http://serie.local/player.html?ep=${n}&render=1${V2 ? '&v=2' : ''}`);
 await page.waitForFunction(() => window.READY === true, null, { timeout: 120000 });
 await page.addStyleTag({ content: '#stage{transform:none!important;left:0!important;top:0!important}' });
 const dur = JSON.parse(fs.readFileSync(path.join(buildDir, 'timeline.json'))).duration;

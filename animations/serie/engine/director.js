@@ -16,11 +16,11 @@ const DEFAULT_FACE = { noob: 'smile', pipoca: 'happy' };
 const BODY = (c) => (c.startsWith('drone') ? 'drone' : c);
 const HEAD_Y = { noob: 4.7, pro: 4.7, luna: 4.7, pipoca: 4.7 * 0.72, vovo: 4.7 * 0.96, ze: 4.7 * 1.05, chicken: 4.5, vortex: 4.8, vbot: 0.2, drone1: 0, drone2: 0, drone3: 0, drone4: 0 };
 
-let EP, TL, LIPS = {};
+let EP, TL, LIPS = {}, ROUNDS = {};
 const $ = id => document.getElementById(id);
 
 export async function load(ep, timeline) {
-  EP = ep; TL = timeline; LIPS = timeline.lips || {};
+  EP = ep; TL = timeline; LIPS = timeline.lips || {}; ROUNDS = timeline.round || {};
   buildCast();
   EP.events.forEach((e, i) => { e.start = TL.events[i].start; e.end = TL.events[i].end; e.i = i; });
   EP.duration = TL.duration;
@@ -31,6 +31,7 @@ export async function load(ep, timeline) {
 }
 function offset(at, e) { if (at === undefined) return 0; if (at === 'end') return e.end - e.start; if (typeof at === 'string' && at.startsWith('end')) return e.end - e.start + parseFloat(at.slice(3)); return at; }
 
+const rnd = (who, t) => { const a = ROUNDS[who]; if (!a) return 0; const i = Math.floor(t * 30); return clamp(a[i] || 0); };
 const lip = (who, t) => { const a = LIPS[who]; if (!a) return 0; const f = t * 30; const i = Math.floor(f); const v = lerp(a[i] || 0, a[i + 1] || 0, f - i); return clamp(v * 1.4); };
 const toV = (p, fb) => (p ? (Array.isArray(p) ? VA(p) : p) : fb);
 
@@ -172,6 +173,7 @@ function updateUI(t, idx, shake) {
   // título do episódio
   const tt = $('epTitle'); tt.style.opacity = 1 - ss(t, 2.6, 3.1); tt.style.transform = `scale(${lerp(1.25, 1, easeOut(seg(t, 0, 0.35)))})`;
   $('logo').style.opacity = 1 - ss(t, 2.6, 3.1);
+  const rc = $('recap'); if (rc) { if (EP.recap) { rc.style.opacity = ss(t, 0.25, 0.55) * (1 - ss(t, 2.9, 3.2)); $('recapTxt').textContent = EP.recap; } else rc.style.opacity = 0; }
   // legendas
   let L = null;
   for (let i = idx; i >= Math.max(0, idx - 1); i--) { const ev = EP.events[i]; if (ev.say && t >= ev.start && t <= ev.end + 0.2) { L = ev; break; } }
@@ -260,7 +262,16 @@ export function renderAt(t) {
     let face = speaking ? (ev.face || EMO_FACE[ev.emo] || 'neutral') : (s.face || DEFAULT_FACE[name] || 'neutral');
     let anim = s.anim; if (speaking && anim === 'idle') anim = 'talk';
     applyAnim(c, anim, t, local, speaking ? m : 0, s.moving);
-    setFace(c, face, speaking ? m : 0, t);
+    setFace(c, face, speaking ? m : 0, t, speaking ? rnd(who, t) : 0);
+    // quem escuta reage: vira a cabeça para quem está falando (v2)
+    if (!speaking && ev.say && TL.round) {
+      const sp = cast[ev.as || ev.say] || (ev.say === 'pro' ? cast.chicken : null);
+      if (sp && sp.visible && sp !== c) {
+        const d = sp.position.clone().sub(c.position); const want = Math.atan2(d.x, d.z) - s.rot;
+        const a = Math.atan2(Math.sin(want), Math.cos(want)); const k = ss(t, ev.start, ev.start + 0.35);
+        c.userData.headG.rotation.y += clamp(a, -0.6, 0.6) * k;
+      }
+    }
     setOpacity(c, s.opacity);
     const P = c.userData.props || {};
     if (P.burger) P.burger.visible = !!s.props.burger;
@@ -268,6 +279,7 @@ export function renderAt(t) {
     if (P.key) { P.key.visible = !!s.props.key; P.key.position.y = 3.2 + Math.sin(t * 2) * 0.15; P.key.rotation.y = t * 2; P.key.userData.halo.material.opacity = 0.14 + 0.08 * Math.sin(t * 6); P.key.scale.setScalar(0.6 * (s.props.keyBig || 1)); }
     if (P.aura) { P.aura.visible = !!s.props.aura; P.aura.material.opacity = 0.4 + 0.15 * Math.sin(t * 6); P.aura.rotation.z = t * 2; }
     if (P.sword) P.sword.visible = !!s.props.sword;
+    if (P.button) P.button.visible = !!s.props.button;
     if (P.tablet) P.tablet.visible = !!s.props.tablet;
     if (P.whip) { P.whip.visible = !!s.props.whip; P.whip.userData.beam.material.opacity = 0.7 + 0.3 * Math.sin(t * 30); }
     if (c.userData.feather) c.userData.feather.visible = !!s.props.feather;

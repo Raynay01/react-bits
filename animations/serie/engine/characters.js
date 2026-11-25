@@ -5,7 +5,9 @@ import { THREE, scene, V, mat, rbox, mesh, glow, canvasTex, clamp, lerp, hash } 
 const ellipse = (g, x, y, rx, ry, fill) => { g.fillStyle = fill; g.beginPath(); g.ellipse(x, y, Math.max(0.1, rx), Math.max(0.1, ry), 0, 0, 7); g.fill(); };
 const CX = 256;
 
+let ROUND = 0;   // 0 = boca larga (A/E), 1 = arredondada (O/U): vem do áudio (v2)
 function mouthOpen(g, w, h, y = 160, tongue = true) {
+  if (ROUND > 0.05 && h > 12) { w *= 1 - 0.5 * ROUND; h *= 1 + 0.25 * ROUND; }
   g.fillStyle = '#2a0a0a'; g.beginPath(); g.moveTo(CX - w, y - 8); g.quadraticCurveTo(CX, y - 8 + h * 0.15, CX + w, y - 8); g.quadraticCurveTo(CX + w * 0.9, y + h, CX, y + h); g.quadraticCurveTo(CX - w * 0.9, y + h, CX - w, y - 8); g.fill();
   if (tongue && h > 18) ellipse(g, CX, y + h * 0.78, w * 0.45, h * 0.22, '#e8556a');
   if (h > 14) { g.fillStyle = '#fff'; g.fillRect(CX - w * 0.6, y - 6, w * 1.2, Math.min(10, h * 0.2)); }
@@ -137,12 +139,12 @@ function makeAvatar({ head, torso, arms, legs, style, torsoDecal, legDecal, scal
   scene.add(root);
   return root;
 }
-export function setFace(av, expr, m, t) {
-  const u = av.userData; const mq = Math.round(m * 10) / 10;
+export function setFace(av, expr, m, t, round = 0) {
+  const u = av.userData; const mq = Math.round(m * 10) / 10; const rq = Math.round(round * 4) / 4;
   const blink = Math.sin(t * 1.7 + u.style.length) > 0.985;
-  const key = expr + mq + (['chew', 'cry'].includes(expr) ? Math.round(t * 20) : '') + blink;
+  const key = expr + mq + '|' + rq + (['chew', 'cry'].includes(expr) ? Math.round(t * 20) : '') + blink;
   if (key === u.lastKey) return; u.lastKey = key;
-  drawFace(u.fc.getContext('2d'), u.style, expr, mq, t); u.ft.needsUpdate = true;
+  ROUND = rq; drawFace(u.fc.getContext('2d'), u.style, expr, mq, t); ROUND = 0; u.ft.needsUpdate = true;
 }
 export function setOpacity(av, o) {
   for (const m of av.userData.mats) { m.transparent = o < 0.999 || m.userData?.wasTransparent; m.opacity = o; }
@@ -266,6 +268,10 @@ export function buildCast() {
   luna.userData.props = { tablet, whip };
   const pipoca = makeAvatar({ head: 0xf3c49b, torso: 0xe8243c, arms: 0xf3c49b, legs: 0x2f6fd6, style: 'pipoca', torsoDecal: pipDecal, scale: 0.72 });
   capPipoca(pipoca.userData.headG);
+  const button = new THREE.Group();   // chaveiro com o botão vermelho (EP2, EP4, EP9)
+  const bb = mesh(new THREE.CylinderGeometry(0.28, 0.32, 0.18, 20), mat(0x2a2a2a)); const bt = mesh(new THREE.CylinderGeometry(0.2, 0.2, 0.14, 20), mat(0xff1a1a, { emissive: 0xff1a1a, emissiveIntensity: 1.2 })); bt.position.y = 0.14;
+  button.add(bb, bt); pipoca.userData.rArm.add(button); button.position.set(0, -2.0, 0.55); button.rotation.x = Math.PI / 2; button.scale.setScalar(1.3);
+  pipoca.userData.props = { button };
   const vovo = makeAvatar({ head: 0xe8bf9a, torso: 0x7a4a24, arms: 0xf2f2f2, legs: 0x5a3418, style: 'vovo', torsoDecal: vovoDecal, scale: 0.96 });
   vovo.userData.props = vovoGear(vovo);
   const ze = makeAvatar({ head: 0xd9a47a, torso: 0x7a4a24, arms: 0xf4efe4, legs: 0x2f4a2a, style: 'ze', torsoDecal: zeDecal, scale: 1.05 });
